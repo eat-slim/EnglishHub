@@ -1,6 +1,5 @@
 # 文件名称：OnlineTranslation.py
 # 主要功能：利用小牛翻译API实现在线文本英汉互译
-# 最后修改时间: 2021/04/01 20:10
 # ======================================================================
 
 import json
@@ -9,9 +8,13 @@ import urllib.parse
 import urllib.request
 
 
-def Translate(sourceText):
-    """调用小牛翻译API实现文本的在线翻译
-    text:待翻译文本"""
+def Translate(sourceText, transType=0):
+    """
+    调用小牛翻译API实现文本的在线翻译
+    :param sourceText: 待翻译文本
+    :param transType: 翻译类型
+    :return: 翻译结果
+    """
 
     if len(sourceText) == 0:
         # 输入为空
@@ -23,7 +26,10 @@ def Translate(sourceText):
     # 小牛翻译API接口和文本
     # from:待翻译语言；to:目标语言；apikey:小牛翻译API的密钥；sourceText
     url = 'http://free.niutrans.com/NiuTransServer/translation?'
-    data = {"from": 'zh', "to": 'en', "apikey": '85043d2db973a7af011efa9a30ec71e1', "src_text": sourceText}
+    if transType == 0:
+        data = {"from": 'zh', "to": 'en', "apikey": '85043d2db973a7af011efa9a30ec71e1', "src_text": sourceText}
+    else:
+        data = {"from": 'en', "to": 'zh', "apikey": '85043d2db973a7af011efa9a30ec71e1', "src_text": sourceText}
     data_en = urllib.parse.urlencode(data)
     req = url + "&" + data_en
 
@@ -36,15 +42,6 @@ def Translate(sourceText):
         # 网络连接异常
         res_dict = {'error_code': 'network anomaly'}
     return res_dict
-
-
-def OnlineTranslationTest():
-    while(True):
-        str = input("待翻译文本：")
-        text = Translate(str)
-        print(text)
-
-# OnlineTranslationTest()
 
 
 

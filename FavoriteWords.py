@@ -1,12 +1,11 @@
 # 文件名称：FavoriteWords.py
 # 主要功能：收藏英语单词
-# 最后修改时间: 2021/04/25 18:28
 # ======================================================================
 
 import os
 
 
-saveFilePath = 'Favorites.dat'
+saveFilePath = 'Data\\Favorites.dat'
 
 
 class Favorites:
@@ -52,28 +51,6 @@ class Favorites:
     def IsExist(self, word):
         """判断是否在收藏夹中"""
         return word in self.wordsList
-
-
-def test():
-    """测试程序"""
-    c = Favorites()
-    words = ['a', 'b', 'string']
-    for i in words:
-        c.Add(i)  # 增添
-    print(c.Show(), c.IsExist('a'))
-    c.Delete('a')
-    c.Delete('unknown')
-    print(c.Show(), c.IsExist('a'), c.IsExist('unknown'))
-
-def test2():
-    c = Favorites()
-    c.Delete('b')
-    print(c.Show())
-
-
-if __name__ == "__main__":
-    test2()
-    # test2()
 
 
 

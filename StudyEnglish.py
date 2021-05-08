@@ -1,6 +1,5 @@
 # 文件名称：StudyEnglish.py
-# 主要功能：学习英语的各项功能，包括背单词、单词测试
-# 最后修改时间: 2021/04/02 19:47
+# 主要功能：每日背诵单词
 # ======================================================================
 
 import sqlite3
@@ -8,13 +7,14 @@ import time
 import datetime
 import random
 import os
+from DataBase import dictionaryDB
 
-dbFile = 'ecdict.db'  # 词典数据库文件
+
 reviewPlan = {"known": 1, "vague": 2, "unknown": 3}  # 复习计划，key:认识程度，value:基础复习天数
-allCategoryWordsSum = {"zk": 0, "gk": 0, "cet4": 0, "cet6": 0, "ielts": 0, "toefl": 0}  # 记录所有类型单词总数
+allCategoryWordsSum = {"zk": 0, "gk": 0, "cet4": 0, "cet6": 0, "ielts": 0, "toefl": 0,"ky":0}  # 记录所有类型单词总数
 
-studyRecord = 'studyRecord.db'  # 学习记录
-config = 'config.dat'  # 学习记录的配置文件
+studyRecord = 'Data\\studyRecord.db'  # 学习记录
+config = 'Data\\config.dat'  # 学习记录的配置文件
 
 
 class StudyRecordDB:
@@ -61,6 +61,8 @@ class StudyRecordDB:
 
     def InsertNewWords(self, reciteList, commit=True):
         """将背诵单词列表插入学习记录数据库中"""
+        sql0 = 'DELETE FROM studyRecord;'
+        self.__connection.execute(sql0)
         sql = 'INSERT INTO studyRecord(word, isStudied, tag, review, reviewDate) VALUES(?, ?, ?, ?, ?);'
         for i in reciteList:
             try:
@@ -122,10 +124,10 @@ class StudyRecordDB:
         """清空数据库"""
         # 修改SQLite系统表数据
         sql1 = 'DELETE FROM studyRecord;'
-        sql2 = "UPDATE sqlite_sequence SET seq = 0 WHERE name = 'studyRecord';"
+        # sql2 = "UPDATE sqlite_sequence SET seq = 0 WHERE name = 'studyRecord';"
         try:
             self.__connection.execute(sql1)
-            self.__connection.execute(sql2)
+            # self.__connection.execute(sql2)
             self.__connection.commit()
         except sqlite3.IntegrityError as e:
             self.OutputLog(str(e))
@@ -247,7 +249,7 @@ class ReciteWords:
             return [Word(i[0], i[1], i[2], i[3], i[4]) for i in wordsTuple]
         else:
             # 初次生成背诵单词，在数据库中查找此类别单词，创建背诵列表，排序或打乱后返回
-            db = sqlite3.connect(dbFile)
+            db = sqlite3.connect(dictionaryDB)
             dbc = db.cursor()
             sql = "select word from dictionary where tag like ?"
             dbc.execute(sql, ('%' + self.category + '%',))
@@ -277,7 +279,7 @@ class ReciteWords:
         try:
             index = [i.word for i in self.reciteList].index(word)
             self.reciteList[index].Study(tag=tag)
-            self.db.UpdateWord(word)
+            self.db.UpdateWord(self.reciteList[index])
             self.remainingNumber -= 1
             self.WriteConfig()
         except ValueError:
@@ -325,63 +327,107 @@ class ReciteWords:
                 return False
         return True
 
+    def Delete(self):
+        """
+        清除学习计划
+        :return:
+        """
+        os.remove(studyRecord)
+        os.remove(config)
 
-def test1():
-    """测试函数1，模拟单词背诵情况"""
-    recite = ReciteWords('zk', 30, 0)  # 生成背诵计划对象，选择中考词汇，每日背诵30词，乱序背诵
+
+#
+# def test1():
+#     """测试函数1，模拟单词背诵情况"""
+#     recite = ReciteWords('zk', 30, 0)  # 生成背诵计划对象，选择中考词汇，每日背诵30词，乱序背诵
+#     recite.ShowReciteList()  # 展示背诵计划包含单词的文本
+#
+#     i = 1
+#     # 连续背诵
+#     while True:
+#         print('背诵天数：', i)
+#         i += 1
+#         reciteDay1 = recite.DailyRecite()  # 今日背诵单词
+#         reviewDay1 = recite.DailyReview()  # 今日复习单词
+#         print('今日背诵单词：', reciteDay1)
+#         print('今日复习单词：', reviewDay1)
+#         if len(reciteDay1):
+#             for word in reciteDay1:
+#                 recite.ReciteWord(word, tag="unknown")  # 背诵所有单词，且都不认识
+#         if len(reviewDay1):
+#             for word in reviewDay1:
+#                 recite.ReviewWord(word, tag="known")  # 复习所有单词，且都认识
+#         print('当前已背诵单词：', recite.RecitedWords())  # 展示已背诵单词
+#         print('当前待复习单词：', recite.ReadyToReviewWord())  # 展示待复习单词
+#
+#         # 检测背诵计划是否完成
+#         if recite.IsOver():
+#             print("背诵计划完成~")
+#             break
+#         # os.system('pause')  # 按回车键继续
+#         time.sleep(5)  # 等待5秒继续
+#
+#
+# def test2():
+#     """测试函数2，测试学习记录数据库"""
+#     testList = ['hello', 'world', 'computer', 'science', 'and', 'technology']
+#     testList = [Word(i) for i in testList]
+#     record = StudyRecordDB(studyRecord)
+#     record.InsertNewWords(testList)
+#     print(record.GetAllWord())
+#     for i in testList:
+#         i.Study()
+#         record.UpdateWord(i)
+#     print(record.GetAllWord())
+#
+#
+# def test3():
+#     """数据库创建后的读写"""
+#     record = StudyRecordDB(studyRecord)
+#     readList = record.GetAllWord()
+#     wordsList = [Word(i[0], i[1], i[2], i[3]) for i in readList]
+#     for i in wordsList:
+#         print(i.WordText(), i.IsStudied(), i.tag, i.ReviewRemaining())
+#
+
+def test4():
+    """
+    完整测试
+    :return:
+    """
+    recite = ReciteWords('ky', 30, 1)  # 生成背诵计划对象，选择中考词汇，每日背诵30词，乱序背诵
     recite.ShowReciteList()  # 展示背诵计划包含单词的文本
+    l = recite.DailyRecite()
+    print(l)
 
-    i = 1
-    # 连续背诵
-    while True:
-        print('背诵天数：', i)
-        i += 1
-        reciteDay1 = recite.DailyRecite()  # 今日背诵单词
-        reviewDay1 = recite.DailyReview()  # 今日复习单词
-        print('今日背诵单词：', reciteDay1)
-        print('今日复习单词：', reviewDay1)
-        if len(reciteDay1):
-            for word in reciteDay1:
-                recite.ReciteWord(word, tag="unknown")  # 背诵所有单词，且都不认识
-        if len(reviewDay1):
-            for word in reviewDay1:
-                recite.ReviewWord(word, tag="known")  # 复习所有单词，且都认识
-        print('当前已背诵单词：', recite.RecitedWords())  # 展示已背诵单词
-        print('当前待复习单词：', recite.ReadyToReviewWord())  # 展示待复习单词
+    day1 = ReciteWords()
+    # l2 = day1.ReciteWord()
+    l = day1.DailyRecite()
+    print(day1.ReadyToReviewWord())
+    print(l[:15])
+    for i in l[:15]:
+        day1.ReciteWord(i, "known")
 
-        # 检测背诵计划是否完成
-        if recite.IsOver():
-            print("背诵计划完成~")
-            break
-        # os.system('pause')  # 按回车键继续
-        time.sleep(5)  # 等待5秒继续
+    day1_2 = ReciteWords()
+    l = day1_2.DailyRecite()
+    print(l)
+    for i in l:
+        day1_2.ReciteWord(i, "known")
 
+    day1_3 = ReciteWords()
+    l = day1_3.DailyRecite()
+    print(l)
+    for i in l:
+        day1_3.ReciteWord(i, "known")
 
-def test2():
-    """测试函数2，测试学习记录数据库"""
-    testList = ['hello', 'world', 'computer', 'science', 'and', 'technology']
-    testList = [Word(i) for i in testList]
-    record = StudyRecordDB(studyRecord)
-    record.InsertNewWords(testList)
-    print(record.GetAllWord())
-    for i in testList:
-        i.Study()
-        record.UpdateWord(i)
-    print(record.GetAllWord())
-
-
-def test3():
-    """数据库创建后的读写"""
-    record = StudyRecordDB(studyRecord)
-    readList = record.GetAllWord()
-    wordsList = [Word(i[0], i[1], i[2], i[3]) for i in readList]
-    for i in wordsList:
-        print(i.WordText(), i.IsStudied(), i.tag, i.ReviewRemaining())
+    l = day1_3.ReadyToReviewWord()
+    print(l)
 
 
 if __name__ == "__main__":
     # test1()
     # test2()
-    test3()
-
-
+    # test3()
+    test4()
+    # r = ReciteWords()
+    # r.Delete()
