@@ -1,26 +1,23 @@
 # 文件名称：Dictionary_ui.py
 # 主要功能：英汉词典翻译的界面
-# 最后修改时间: 2021/04/08 21:52
 # ======================================================================
-
+import qtawesome
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
-from PyQt5.QtCore import *
 from DataBase import *
 from FavoriteWords import Favorites
 from WordsTest import PronunceWord
 
-import sys
 
 tagTrans = {'zk': '初中', 'gk': '高中', 'ky': '考研', 'ielts': '雅思', 'toefl': '托福'}
 exchangeTrans = {'p': '过去式', 'd': '过去分词', 'i': '现在分词', '3': '第三人称单数', 'r': '形容词比较级',
                  't': '形容词最高级', 's': '复数', '0': '词根', '1': '词根变换形式'}
 
 
-def Trans(text, dict):
+def Trans(text, dic):
     """对查询结果的简要表达方式进行替换"""
-    for key in dict:
-        text = text.replace(key, dict[key])
+    for key in dic:
+        text = text.replace(key, dic[key])
     return text
 
 
@@ -31,21 +28,17 @@ class DictionaryUI(QWidget):
         super(DictionaryUI, self).__init__()
         self.resize(700, 500)
 
-        self.db = DictionaryDB('ecdict.db')  # 连接数据库
+        self.db = DictionaryDB(dictionaryDB)  # 连接数据库
 
         self.searchText = QLineEdit()  # 查询框
-        self.clearButton = QPushButton('清除')  # 清除键
-        self.searchButton = QPushButton('查询')  # 查询键
+        self.clearButton = QPushButton(qtawesome.icon('fa.times', color='black'), '清除')  # 清除键
+        self.searchButton = QPushButton(qtawesome.icon('fa.search', color='black'), '查询')  # 查询键
         self.word = QLabel()  # 显示被查询单词
         self.voidLabel = QLabel()  # 占位label
-        self.favoriteButton = QPushButton('收藏')  # 收藏键
-        self.readWordButton = QPushButton('朗读')  # 朗读键
+        self.favoriteButton = QPushButton(qtawesome.icon('fa.heart', color='black'), '收藏')  # 收藏键
+        self.readWordButton = QPushButton(qtawesome.icon('fa.volume-up', color='black'), '朗读')  # 朗读键
         self.showText = QTextEdit()  # 查询结果展示框
         self.showText.setReadOnly(True)  # 展示框只读
-        # self.clearAction = QAction()
-        # self.clearAction.setIcon(QStyle.SP_DialogResetButton)
-        # self.searchText.addAction(self.clearAction, QLineEdit.TrailingPosition)
-        # self.clearAction.triggered.connect(self.OnClickClearButton)
 
         self.FormatText()  # 设置文本格式
 
@@ -70,6 +63,33 @@ class DictionaryUI(QWidget):
         layout.addLayout(hBox)
         layout.addLayout(hBox2)
         layout.addWidget(self.showText)
+
+        self.setStyleSheet('''
+            QPushButton{
+                border:none;
+                color:#707070;
+                font-size:18px;
+                font-weight:500;
+                font-family: "微软雅黑", Helvetica, Arial, sans-serif;
+            }
+            QPushButton:hover{
+                font-weight:1000;
+                color:red;
+            }
+            QLineEdit{
+                border:1px solid gray;
+                width:300px;
+                border-radius:10px;
+                padding:2px 4px;
+            }
+            QTextEdit{
+                background-color:#cdcdcd;
+                border:1px solid gray;
+                width:300px;
+                border-radius:10px;
+                padding:2px 4px
+            }
+        ''')
 
         self.setLayout(layout)
 
@@ -196,15 +216,5 @@ class DictionaryUI(QWidget):
         self.favoriteButton.setHidden(True)
         self.readWordButton.setHidden(True)
         self.voidLabel.setHidden(True)
-
-
-def Dictionary_uiText():
-    app = QApplication(sys.argv)
-    ui = DictionaryUI()
-    ui.show()
-    sys.exit(app.exec_())
-
-if __name__ == "__main__":
-    Dictionary_uiText()
 
 

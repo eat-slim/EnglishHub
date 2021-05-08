@@ -1,14 +1,11 @@
 # 文件名称：FavoriteWords_ui.py
 # 主要功能：收藏夹的界面
-# 最后修改时间: 2021/04/28 21:52
 # ======================================================================
-
+import qtawesome
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from FavoriteWords import *
-import sys
-import time
 
 from DataBase import *
 from Dictionary_ui import exchangeTrans, tagTrans, Trans
@@ -22,9 +19,9 @@ class FavoriteWordsUI(QWidget):
         self.resize(700, 500)
 
         self.controlStrip = QHBoxLayout()  # 功能栏水平布局
-        self.button1 = QPushButton('刷新')
-        self.button2 = QPushButton('取消收藏')
-        self.button3 = QPushButton('全部取消收藏')
+        self.button1 = QPushButton(qtawesome.icon('fa.refresh', color='black'), '刷新')
+        self.button2 = QPushButton(qtawesome.icon('fa.star-half-o', color='black'), '取消收藏')
+        self.button3 = QPushButton(qtawesome.icon('fa.star-o', color='black'), '全部取消收藏')
         self.controlStrip.addWidget(self.button1)
         self.controlStrip.addWidget(self.button2)
         self.controlStrip.addWidget(self.button3)
@@ -37,7 +34,7 @@ class FavoriteWordsUI(QWidget):
         self.showStrip.setSelectionMode(QAbstractItemView.ExtendedSelection)
         self.CreateListItem()
         self.detailText = QTextEdit()  # 具体释义界面
-        self.closeButton = QPushButton('关闭')  # 关闭具体释义
+        self.closeButton = QPushButton(qtawesome.icon('fa.times', color='black'), '关闭')  # 关闭具体释义
         qSize = QSizePolicy()
         qSize.setHorizontalPolicy(QSizePolicy.Fixed)
         self.closeButton.setSizePolicy(qSize)
@@ -56,12 +53,50 @@ class FavoriteWordsUI(QWidget):
         vbox.addLayout(self.details)
         self.setLayout(vbox)
 
+        self.setStyleSheet('''
+            QPushButton{
+                border:none;
+                color:#707070;
+                font-size:18px;
+                font-weight:500;
+                font-family: "微软雅黑", Helvetica, Arial, sans-serif;
+            }
+            QPushButton:hover{
+                background-color:#cdcdcd;
+                color:red;
+                border-right:4px solid red;
+                border-left:4px solid red;
+                font-weight:1000;
+            }
+            QLineEdit{
+                border:1px solid gray;
+                width:300px;
+                border-radius:10px;
+                padding:2px 4px;
+            }
+            QTextEdit{
+                background-color:#cdcdcd;
+                border:1px solid gray;
+                width:300px;
+                border-radius:10px;
+                padding:2px 4px
+            }
+            QListWidget{
+                border-radius:10px;
+                background-color:#cdcdcd;
+                border:1px solid gray;
+                width:300px;
+                border-radius:10px;
+                padding:2px 4px;
+            }
+        ''')
+
     def CreateListItem(self):
         """
         根据收藏夹内容填充列表内容
         :return:
         """
-        db = DictionaryDB(dbFile)
+        db = DictionaryDB(dictionaryDB)
         f = Favorites()
         font = QFont()
         font.setFamily('微软雅黑')
@@ -75,7 +110,6 @@ class FavoriteWordsUI(QWidget):
 
             wordStyle = QWidget()  # 列表项的布局方式
             wordTextLabel = QLabel()  # 单词文本
-            # wordTextLabel.setFont(font)
             item.setText(' ' + i)
             item.setFont(font)
 
@@ -86,16 +120,9 @@ class FavoriteWordsUI(QWidget):
             wordTranslationLabel = QLabel(wordTranslation)
             wordTranslationLabel.setSizePolicy(qSize)
 
-            # button = QPushButton('取消收藏')  # 取消收藏的按钮
-            # button.clicked.connect(lambda: self.UnFavorite(i))
-
             hbox = QHBoxLayout()
             hbox.addWidget(wordTextLabel)
             hbox.addWidget(wordTranslationLabel)
-            # hbox.addWidget(button)
-            # hbox.setStretch(0, 3)
-            # hbox.setStretch(1, 6)
-            # hbox.setStretch(2, 1)
 
             wordStyle.setLayout(hbox)  # 水平布局
             self.showStrip.addItem(item)
@@ -109,9 +136,9 @@ class FavoriteWordsUI(QWidget):
         self.detailText.setVisible(True)
         self.closeButton.setVisible(True)
         itemWord = item.text()[1:]  # 获取查询内容
-        db = DictionaryDB('ecdict.db')
+        db = DictionaryDB(dictionaryDB)
         detail = db.QueryWord(itemWord)  # 得到查询结果
-        if detail != None:
+        if detail is not None:
             # 对部分内容重新编写格式
             tag = '|'.join(detail['tag'].split())
             detail['tag'] = Trans(tag, tagTrans)
@@ -181,13 +208,6 @@ class FavoriteWordsUI(QWidget):
             f = Favorites()
             f.DeleteAll()
             self.Refresh()
-
-
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    main = FavoriteWordsUI()
-    main.show()
-    sys.exit(app.exec_())
 
 
 
