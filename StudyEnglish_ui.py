@@ -233,7 +233,7 @@ class StudyEnglishUI(object):
         self.horizontalLayout_3.setStretch(1, 1)
 
         self.retranslateUi(StudyEnglishUI)
-        self.stackedWidget.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(StudyEnglishUI)
 
         self.DecideFrame()
@@ -393,14 +393,12 @@ class StudyEnglishUI(object):
         self.choiceOrder.setItemText(1, _translate("StudyEnglishUI", "乱序"))
         self.choiceOrder.setItemText(2, _translate("StudyEnglishUI", "顺序"))
         self.startRectieButton.setText(_translate("StudyEnglishUI", "开始学习"))
-        font = QFont()
-        font.setPointSize(16)
-        self.startRectieButton.setFont(font)
 
     def CreateReciteFrame(self):
         self.baseFrame.setHidden(True)
         self.reciteFrame.setVisible(True)
         self.currentReciteLine.setText(self.ReadConfig())
+        self.ReviewCreateListItem()
         self.ReciteCreateListItem()
 
     def CreateBaseFrame(self):
@@ -415,6 +413,8 @@ class StudyEnglishUI(object):
                 configFile.truncate()
             self.reciteFrame.setHidden(True)
             self.baseFrame.setVisible(True)
+            if os.path.exists('Data\\studyRecord'):
+                shutil.rmtree('Data\\studyRecord')
 
     def ReadConfig(self):
         with open(config, 'r') as configFile:
@@ -423,9 +423,9 @@ class StudyEnglishUI(object):
         dailyNumber = configList[1]
         sequence = int(configList[2])
         if sequence:
-            sequence = '乱序'
-        else:
             sequence = '顺序'
+        else:
+            sequence = '乱序'
         configList = category + " 每日 " + dailyNumber + ' 词 '+sequence
         return configList
 
@@ -439,6 +439,7 @@ class StudyEnglishUI(object):
             font.setPointSize(12)
             qSize = QSizePolicy()
             qSize.setHorizontalPolicy(QSizePolicy.Ignored)
+            self.reciteShowWordList.clear()
             for i in l:
                 item = QListWidgetItem()  # 列表项目
                 item.setSizeHint(QSize(0, 50))
@@ -456,9 +457,6 @@ class StudyEnglishUI(object):
                 self.reciteShowWordList.addItem(item)
                 self.reciteShowWordList.setItemWidget(item, wordStyle)
 
-        else:
-            QMessageBox.about(QWidget(), "真棒", "已完成今日学习任务，可复习昨日单词")
-
     def ReviewCreateListItem(self):
         review = ReciteWords()
         l = review.DailyReview()
@@ -469,6 +467,7 @@ class StudyEnglishUI(object):
             font.setPointSize(12)
             qSize = QSizePolicy()
             qSize.setHorizontalPolicy(QSizePolicy.Ignored)
+            self.reviewShowWordList.clear()
             for i in l:
                 item = QListWidgetItem()  # 列表项目
                 item.setSizeHint(QSize(0, 50))
@@ -485,14 +484,12 @@ class StudyEnglishUI(object):
                 wordStyle.setLayout(hbox)  # 水平布局
                 self.reviewShowWordList.addItem(item)
                 self.reviewShowWordList.setItemWidget(item, wordStyle)
-        else:
-            QMessageBox.about(QWidget(), "提示", "没有单词需要复习哦")
 
     def ReciteWordDetail(self, item):
         itemWord = item.text()[1:]  # 获取查询内容
         db = DictionaryDB(dictionaryDB)
         detail = db.QueryWord(itemWord)  # 得到查询结果
-        if detail != None:
+        if detail is not None:
             # 对部分内容重新编写格式
             tag = '|'.join(detail['tag'].split())
             detail['tag'] = Trans(tag, tagTrans)
@@ -527,7 +524,7 @@ class StudyEnglishUI(object):
         itemWord = item.text()[1:]  # 获取查询内容
         db = DictionaryDB(dictionaryDB)
         detail = db.QueryWord(itemWord)  # 得到查询结果
-        if detail != None:
+        if detail is not None:
             # 对部分内容重新编写格式
             tag = '|'.join(detail['tag'].split())
             detail['tag'] = Trans(tag, tagTrans)
@@ -608,8 +605,8 @@ class StudyEnglishUI(object):
         word = itemWord.split()[0]
         recite = ReciteWords()
         recite.ReviewWord(word, "known")
-        word = self.reciteShowWordList.currentItem()
-        row = self.reciteShowWordList.currentRow()
+        word = self.reviewShowWordList.currentItem()
+        row = self.reviewShowWordList.currentRow()
         items = QListWidgetItem(word)
         color = QColor()
         color.setRgb(255, 182, 193)
@@ -623,8 +620,8 @@ class StudyEnglishUI(object):
         word = itemWord.split()[0]
         recite = ReciteWords()
         recite.ReviewWord(word, "vague")
-        word = self.reciteShowWordList.currentItem()
-        row = self.reciteShowWordList.currentRow()
+        word = self.reviewShowWordList.currentItem()
+        row = self.reviewShowWordList.currentRow()
         items = QListWidgetItem(word)
         color = QColor()
         color.setRgb(255, 182, 193)
@@ -638,8 +635,8 @@ class StudyEnglishUI(object):
         word = itemWord.split()[0]
         recite = ReciteWords()
         recite.ReviewWord(word, "unknown")
-        word = self.reciteShowWordList.currentItem()
-        row = self.reciteShowWordList.currentRow()
+        word = self.reviewShowWordList.currentItem()
+        row = self.reviewShowWordList.currentRow()
         items = QListWidgetItem(word)
         color = QColor()
         color.setRgb(255, 182, 193)

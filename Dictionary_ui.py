@@ -6,7 +6,6 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from DataBase import *
 from FavoriteWords import Favorites
-from WordsTest import PronunceWord
 
 
 tagTrans = {'zk': '初中', 'gk': '高中', 'ky': '考研', 'ielts': '雅思', 'toefl': '托福'}
@@ -218,3 +217,14 @@ class DictionaryUI(QWidget):
         self.voidLabel.setHidden(True)
 
 
+def PronunceWord(word):
+    """
+    发音函数
+    以字符串形式传入，输出音频
+    输入的字符串可以是包含多个单词的句子，那么就会朗读出句子
+    """
+    engine = pyttsx3.Engine()
+    engine.setProperty('rate', 150)  # 设置听写语速， 默认为200
+    engine.setProperty('volume', 2.0)  # 设置音量， 默认为1.0
+    engine.say(word)
+    engine.runAndWait()
