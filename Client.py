@@ -5,6 +5,7 @@
 from socket import *
 import json
 import time
+import hashlib
 
 
 def ClientMain(dataType, data):
@@ -34,7 +35,7 @@ def ClientMain(dataType, data):
             tcpCliSock.send(bytes(data, 'utf-8'))  # 编码发送数据
             rev = tcpCliSock.recv(BUFSIZ)  # 得到服务器端回传信息
         except:
-            rev = "服务器繁忙，请稍后再试"
+            return "服务器繁忙，请稍后再试"
         rev = rev.decode('utf-8')
         if rev == "":
             rev = "网络异常"
@@ -48,6 +49,7 @@ def ClientLogin(username, password):
     :param password: 密码
     :return: ClientMain的返回值
     """
+    password = hashlib.md5(bytes(password, 'utf-8')).hexdigest()  # 密码进行md5加密
     data = {"username": username, "password": password}
     dataType = "login"
     return ClientMain(dataType, data)
@@ -60,6 +62,7 @@ def ClientRegister(username, password):
     :param password: 密码
     :return: ClientMain的返回值
     """
+    password = hashlib.md5(bytes(password, 'utf-8')).hexdigest()  # 密码进行md5加密
     data = {"username": username, "password": password, "type": "client"}
     dataType = "register"
     return ClientMain(dataType, data)
@@ -77,11 +80,4 @@ def ClientFeedback(username, text):
     return ClientMain(dataType, data)
 
 
-if __name__ == "__main__":
-    print(ClientLogin('user1', '123'))
-    print(ClientRegister('user1', '123456'))
-    print(ClientLogin('user1', '123456'))
-    print(ClientLogin('user1', '123'))
-    print(ClientRegister('user1', '123'))
-    print(ClientFeedback('user1', '你好，我想反馈一些消息'))
 
