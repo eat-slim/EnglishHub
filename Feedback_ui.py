@@ -127,6 +127,12 @@ class FeedbackUI(object):
         if text.strip() == '':
             QMessageBox().warning(QWidget(), "提示", "内容不能为空", QMessageBox.Yes)
             return
+        elif len(text.strip()) > 200:
+            QMessageBox().warning(QWidget(), "提示", "内容不能超过200个字符", QMessageBox.Yes)
+            return
+        if len(add) > 50:
+            QMessageBox().warning(QWidget(), "提示", "联系方式不能超过50个字符", QMessageBox.Yes)
+            return
         try:
             # 创建新线程
             data = {"联系方式": add, "反馈内容": text}
@@ -156,6 +162,7 @@ class FeedbackUI(object):
         self.mailLabel.setText(_translate("FeedbackUI", "联系方式："))
         self.mailText.setPlaceholderText(_translate("FeedbackUI", "您的邮箱或手机号码(选填）"))
         self.opinionLabel.setText(_translate("FeedbackUI", "反馈意见："))
+        self.opinionText.setPlaceholderText(_translate("FeedbackUI", "不多于200个字符"))
         self.sendButton.setText(_translate("FeedbackUI", "发送"))
 
 

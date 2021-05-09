@@ -34,7 +34,15 @@ class OnlineTranslationUI(object):
         self.transButton = QtWidgets.QPushButton(self.frame)
         self.transButton.setAccessibleName("")
         self.transButton.setObjectName("transButton")
-        self.verticalLayout.addWidget(self.transButton)
+        self.transZhButton = QtWidgets.QPushButton(self.frame)
+        self.transZhButton.setAccessibleName("")
+        self.transZhButton.setObjectName("transZhButton")
+
+        hbox = QHBoxLayout()
+        hbox.addWidget(self.transButton)
+        hbox.addWidget(self.transZhButton)
+
+        self.verticalLayout.addLayout(hbox)
         self.outputText = QtWidgets.QTextEdit(self.frame)
         self.outputText.setObjectName("outputText")
         self.verticalLayout.addWidget(self.outputText)
@@ -47,8 +55,7 @@ class OnlineTranslationUI(object):
         self.FormatText()  # 设置文字格式
 
         self.transButton.clicked.connect(self.OnClickTransButton)  # 翻译按钮连接信号槽
-
-
+        self.transZhButton.clicked.connect(self.OnClickTransZhButton)
 
         self.frame.setStyleSheet('''
             QPushButton{
@@ -81,7 +88,8 @@ class OnlineTranslationUI(object):
     def retranslateUi(self, OnlineTranslationUI):
         _translate = QtCore.QCoreApplication.translate
         OnlineTranslationUI.setWindowTitle(_translate("OnlineTranslationUI", "Form"))
-        self.transButton.setText(_translate("OnlineTranslationUI", "翻译"))
+        self.transButton.setText(_translate("OnlineTranslationUI", "中译英"))
+        self.transZhButton.setText(_translate("OnlineTranslationUI", "英译中"))
 
     def ErrorCodeProcess(self, errorCode):
         """根据翻译API回传的错误代码进行不同的错误处理"""

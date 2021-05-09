@@ -5,8 +5,6 @@
 import sys
 import os
 import qtawesome
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QCursor
 from PyQt5.Qt import *
 from PyQt5 import QtWidgets, QtCore
 
@@ -16,6 +14,8 @@ from StudyEnglish_ui import StudyEnglishUI
 from FavoriteWords_ui import FavoriteWordsUI
 from Feedback_ui import FeedbackUI
 from Introduction_ui import Ui_IntroductionUI
+from Login_ui import LoginUI, RegisterUI
+from News import SearchNewsUI
 
 
 class StudyEnglish_UI(QWidget, StudyEnglishUI):
@@ -50,6 +50,8 @@ class MainWindow(QMainWindow):
 
     def __init__(self):
         super().__init__()
+        if os.path.exists("Label"):
+            self.setWindowIcon(QIcon('Label\\label.png'))
         if not os.path.exists("Data"):
             os.makedirs("Data")
         if not os.path.exists("log"):
@@ -83,13 +85,18 @@ class MainWindow(QMainWindow):
         self.appName.setObjectName('left_label')
         self.support = QPushButton('联系与帮助')
         self.support.setObjectName('left_label')
+        self.userInfoLabel = QLabel('未登录')
+        self.userInfoLabel.setAlignment(Qt.AlignCenter)
+        self.userInfoLabel.setWordWrap(True)
+        self.userButton = QPushButton(qtawesome.icon('fa.sign-in', color='white'), '登录')
         self.button1 = QPushButton(qtawesome.icon('fa.globe', color='white'), '在线翻译')
         self.button2 = QPushButton(qtawesome.icon('fa.book', color='white'), '英汉词典')
-        self.button3 = QPushButton(qtawesome.icon('fa.leanpub', color='white'), '每日背单词')
+        self.button3 = QPushButton(qtawesome.icon('fa.leanpub', color='white'), '每日学单词')
         self.button4 = QPushButton(qtawesome.icon('fa.bookmark', color='white'), '单词收藏夹')
         self.button5 = QPushButton(qtawesome.icon('fa.newspaper-o', color='white'), '每日新闻')
         self.button6 = QPushButton(qtawesome.icon('fa.comment', color='white'), "反馈建议")
         self.button7 = QPushButton(qtawesome.icon('fa.star', color='white'), "关于我们")
+        self.userButton.setObjectName('left_button_special')
         self.button1.setObjectName('left_button')
         self.button2.setObjectName('left_button')
         self.button3.setObjectName('left_button')
@@ -97,19 +104,13 @@ class MainWindow(QMainWindow):
         self.button5.setObjectName('left_button')
         self.button6.setObjectName('left_button')
         self.button7.setObjectName('left_button')
-
-        hbox = QHBoxLayout()
-        self.userInfoLabel = QLabel('未登录')  # 用户名欢迎标题
-        self.userButton = QPushButton('登录')  # 用户登录或注销的按钮
-        hbox.addWidget(self.userInfoLabel)
-        hbox.addWidget(self.userButton)
-
         self.FormatWidget()
 
         self.leftLayout.addWidget(self.leftMini, 0, 0, 1, 1)
         self.leftLayout.addWidget(self.leftClose, 0, 2, 1, 1)
         self.leftLayout.addWidget(self.appName, 0, 1, 1, 1)
-        self.leftLayout.addLayout(hbox, 2, 0, 1, 3)
+        self.leftLayout.addWidget(self.userInfoLabel, 1, 0, 1, 3)
+        self.leftLayout.addWidget(self.userButton, 2, 0, 1, 3)
         self.leftLayout.addWidget(self.button1, 3, 0, 1, 3)
         self.leftLayout.addWidget(self.button2, 4, 0, 1, 3)
         self.leftLayout.addWidget(self.button3, 5, 0, 1, 3)
@@ -118,24 +119,21 @@ class MainWindow(QMainWindow):
         self.leftLayout.addWidget(self.support, 9, 0, 1, 3)
         self.leftLayout.addWidget(self.button6, 10, 0, 1, 3)
         self.leftLayout.addWidget(self.button7, 11, 0, 1, 3)
-        # self.leftLayout.addWidget(self.button1, 2, 0, 1, 3)
-        # self.leftLayout.addWidget(self.button2, 3, 0, 1, 3)
-        # self.leftLayout.addWidget(self.button3, 4, 0, 1, 3)
-        # self.leftLayout.addWidget(self.button4, 6, 0, 1, 3)
-        # self.leftLayout.addWidget(self.button5, 7, 0, 1, 3)
-        # self.leftLayout.addWidget(self.support, 8, 0, 1, 3)
-        # self.leftLayout.addWidget(self.button6, 9, 0, 1, 3)
-        # self.leftLayout.addWidget(self.button7, 10, 0, 1, 3)
 
-        self.stack1 = OnlineTranslation_UI()  # 堆栈界面
+        self.loginUI = LoginUI()
+        self.registerUI = RegisterUI()
+        self.onlineTranslationUI = OnlineTranslation_UI()
+        self.feedbackUI = Feedback_UI()
+        self.loginUI.signal.connect(self.SetUserName)
+        self.feedbackUI.signal.connect(self.FeedbackControl)
+
+        self.stack1 = self.onlineTranslationUI  # 堆栈界面
         self.stack2 = DictionaryUI()
         self.stack3 = StudyEnglish_UI()
         self.stack4 = FavoriteWordsUI()
-        self.stack5 = QWidget()
-        self.stack6 = Feedback_UI()
+        self.stack5 = SearchNewsUI()
+        self.stack6 = self.feedbackUI
         self.stack7 = Introduction_UI()
-
-        self.loginButton = QPushButton
 
         self.stack = QStackedLayout(self.rightFrame)  # 堆栈控件，放置对应功能的界面
         self.stack.addWidget(self.stack1)  # 放入对应界面
@@ -154,6 +152,12 @@ class MainWindow(QMainWindow):
         self.button5.clicked.connect(self.OnClickButton5)
         self.button6.clicked.connect(self.OnClickButton6)
         self.button7.clicked.connect(self.OnClickButton7)
+
+        self.userButton.clicked.connect(self.OnClickUserButton)
+        self.loginUI.registerButton.clicked.connect(self.loginUI.Close)
+        self.loginUI.registerButton.clicked.connect(self.registerUI.Open)
+        self.registerUI.loginButton.clicked.connect(self.registerUI.Close)
+        self.registerUI.loginButton.clicked.connect(self.loginUI.Open)
 
         self.leftClose.clicked.connect(self.close)
         self.leftMini.clicked.connect(self.showMinimized)
@@ -177,8 +181,26 @@ class MainWindow(QMainWindow):
                     font-weight:700;
                     font-family: "微软雅黑", Helvetica, Arial, sans-serif;
                 }
+                QLabel{
+                    color:white;
+                    font-size:18px;
+                    font-family: "微软雅黑", Helvetica, Arial, sans-serif;
+                }
                 QPushButton#left_button{
-                    font-size:20px;
+                    font-size:22px;
+                }
+                QPushButton#left_button_special{
+                    font-size:22px;
+                }
+                QPushButton#left_button_special:hover{
+                    background-color:black;
+                    border-left:4px solid red;
+                    border-right:4px solid red;
+                    border-top:4px solid red;
+                    border-bottom:4px solid red;
+                    border-radius:10px;
+                    font-weight:1000;
+                    color:white;
                 }
                 QPushButton#left_button:hover{
                     background-color:black;
@@ -223,6 +245,46 @@ class MainWindow(QMainWindow):
         self.setWindowFlag(QtCore.Qt.FramelessWindowHint)  # 隐藏边框
         self.mainLayout.setSpacing(0)
 
+    def OnClickUserButton(self):
+        """
+        用户按钮槽函数
+        :return:
+        """
+        if self.user == '':
+            self.loginUI.show()
+        else:
+            msgBox = QMessageBox().question(QWidget(), "询问", "确认退出登录？", QMessageBox.Yes | QMessageBox.No,
+                                            QMessageBox.No)
+            if msgBox == QMessageBox.Yes:
+                self.user = ''
+                self.userButton.setText('登录')
+                self.userInfoLabel.setText('未登录')
+                self.onlineTranslationUI.SetUsable(False)
+                self.feedbackUI.SetUser('')
+
+    def SetUserName(self, data):
+        """
+        设置用户名
+        :param data: 用户名字符串
+        :return:
+        """
+        self.user = data
+        self.userInfoLabel.setText('欢迎:' + data)
+        self.userButton.setText('退出登录')
+        self.loginUI.Close()
+        self.onlineTranslationUI.SetUsable(True)
+        self.feedbackUI.SetUser(data)
+
+    def FeedbackControl(self, rcv):
+        """
+        设置反馈窗口
+        :return:
+        """
+        if rcv == '发送成功':
+            QMessageBox().about(QWidget(), "提示", rcv)
+        else:
+            QMessageBox().warning(QWidget(), "提示", rcv, QMessageBox.Yes)
+
     def mousePressEvent(self, event):
         if event.button() == Qt.LeftButton:
             self.mFlag = True
@@ -246,6 +308,8 @@ class MainWindow(QMainWindow):
         sizePolicy = QSizePolicy()  # 设置按钮控件格式为水平垂直自动扩展
         sizePolicy.setVerticalPolicy(QSizePolicy.Expanding)
         sizePolicy.setHorizontalPolicy(QSizePolicy.Expanding)
+        self.userInfoLabel.setSizePolicy(sizePolicy)
+        self.userButton.setSizePolicy(sizePolicy)
         self.button1.setSizePolicy(sizePolicy)
         self.button2.setSizePolicy(sizePolicy)
         self.button3.setSizePolicy(sizePolicy)

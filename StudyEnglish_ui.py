@@ -20,7 +20,6 @@ class StudyEnglishUI(object):
 
     def setupUi(self, StudyEnglishUI):
         StudyEnglishUI.setObjectName("StudyEnglishUI")
-        StudyEnglishUI.resize(1088, 470)
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout(StudyEnglishUI)
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.reciteFrame = QtWidgets.QFrame(StudyEnglishUI)
@@ -89,8 +88,6 @@ class StudyEnglishUI(object):
         self.reciteShowWordList = QtWidgets.QListWidget(self.ReciteUI)
         self.reciteShowWordList.setObjectName("reciteShowWordList")
         self.horizontalLayout_9.addWidget(self.reciteShowWordList)
-        spacerItem4 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_9.addItem(spacerItem4)
         self.verticalLayout_10 = QtWidgets.QVBoxLayout()
         self.verticalLayout_10.setObjectName("verticalLayout_10")
         self.horizontalLayout_10 = QtWidgets.QHBoxLayout()
@@ -98,13 +95,13 @@ class StudyEnglishUI(object):
         self.reciteKnownButton = QtWidgets.QPushButton(self.ReciteUI)
         self.reciteKnownButton.setObjectName("reciteKnownButton")
         self.horizontalLayout_10.addWidget(self.reciteKnownButton)
-        spacerItem5 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_10.addItem(spacerItem5)
+        spacerItem4 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_10.addItem(spacerItem4)
         self.reciteVagueButton = QtWidgets.QPushButton(self.ReciteUI)
         self.reciteVagueButton.setObjectName("reciteVagueButton")
         self.horizontalLayout_10.addWidget(self.reciteVagueButton)
-        spacerItem6 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_10.addItem(spacerItem6)
+        spacerItem5 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_10.addItem(spacerItem5)
         self.reciteUnknownButton = QtWidgets.QPushButton(self.ReciteUI)
         self.reciteUnknownButton.setObjectName("reciteUnknownButton")
         self.horizontalLayout_10.addWidget(self.reciteUnknownButton)
@@ -114,8 +111,8 @@ class StudyEnglishUI(object):
         self.horizontalLayout_10.setStretch(3, 1)
         self.horizontalLayout_10.setStretch(4, 10)
         self.verticalLayout_10.addLayout(self.horizontalLayout_10)
-        spacerItem7 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_10.addItem(spacerItem7)
+        spacerItem6 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_10.addItem(spacerItem6)
         self.reciteDetailText = QtWidgets.QTextEdit(self.ReciteUI)
         self.reciteDetailText.setObjectName("reciteDetailText")
         self.verticalLayout_10.addWidget(self.reciteDetailText)
@@ -124,8 +121,7 @@ class StudyEnglishUI(object):
         self.verticalLayout_10.setStretch(2, 20)
         self.horizontalLayout_9.addLayout(self.verticalLayout_10)
         self.horizontalLayout_9.setStretch(0, 10)
-        self.horizontalLayout_9.setStretch(1, 1)
-        self.horizontalLayout_9.setStretch(2, 10)
+        self.horizontalLayout_9.setStretch(1, 10)
         self.verticalLayout_8.addLayout(self.horizontalLayout_9)
         self.verticalLayout_8.setStretch(0, 10)
         self.stackedWidget.addWidget(self.ReciteUI)
@@ -138,8 +134,6 @@ class StudyEnglishUI(object):
         self.reviewShowWordList = QtWidgets.QListWidget(self.ReviewUI)
         self.reviewShowWordList.setObjectName("reviewShowWordList")
         self.horizontalLayout_11.addWidget(self.reviewShowWordList)
-        spacerItem8 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_11.addItem(spacerItem8)
         self.verticalLayout_11 = QtWidgets.QVBoxLayout()
         self.verticalLayout_11.setObjectName("verticalLayout_11")
         self.horizontalLayout_12 = QtWidgets.QHBoxLayout()
@@ -147,13 +141,13 @@ class StudyEnglishUI(object):
         self.reviewKnownButton = QtWidgets.QPushButton(self.ReviewUI)
         self.reviewKnownButton.setObjectName("reviewKnownButton")
         self.horizontalLayout_12.addWidget(self.reviewKnownButton)
-        spacerItem9 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_12.addItem(spacerItem9)
+        spacerItem7 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_12.addItem(spacerItem7)
         self.reviewVagueButton = QtWidgets.QPushButton(self.ReviewUI)
         self.reviewVagueButton.setObjectName("reviewVagueButton")
         self.horizontalLayout_12.addWidget(self.reviewVagueButton)
-        spacerItem10 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_12.addItem(spacerItem10)
+        spacerItem8 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_12.addItem(spacerItem8)
         self.reviewUnknownButton = QtWidgets.QPushButton(self.ReviewUI)
         self.reviewUnknownButton.setObjectName("reviewUnknownButton")
         self.horizontalLayout_12.addWidget(self.reviewUnknownButton)
@@ -163,8 +157,8 @@ class StudyEnglishUI(object):
         self.horizontalLayout_12.setStretch(3, 1)
         self.horizontalLayout_12.setStretch(4, 10)
         self.verticalLayout_11.addLayout(self.horizontalLayout_12)
-        spacerItem11 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_11.addItem(spacerItem11)
+        spacerItem9 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_11.addItem(spacerItem9)
         self.reviewDetailText = QtWidgets.QTextEdit(self.ReviewUI)
         self.reviewDetailText.setObjectName("reviewDetailText")
         self.verticalLayout_11.addWidget(self.reviewDetailText)
@@ -173,8 +167,7 @@ class StudyEnglishUI(object):
         self.verticalLayout_11.setStretch(2, 20)
         self.horizontalLayout_11.addLayout(self.verticalLayout_11)
         self.horizontalLayout_11.setStretch(0, 10)
-        self.horizontalLayout_11.setStretch(1, 1)
-        self.horizontalLayout_11.setStretch(2, 10)
+        self.horizontalLayout_11.setStretch(1, 10)
         self.verticalLayout_5.addLayout(self.horizontalLayout_11)
         self.stackedWidget.addWidget(self.ReviewUI)
         self.verticalLayout_3.addWidget(self.stackedWidget)
@@ -189,12 +182,10 @@ class StudyEnglishUI(object):
         self.baseFrame.setObjectName("baseFrame")
         self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.baseFrame)
         self.verticalLayout_6.setObjectName("verticalLayout_6")
-        spacerItem12 = QtWidgets.QSpacerItem(20, 92, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_6.addItem(spacerItem12)
+        spacerItem10 = QtWidgets.QSpacerItem(20, 92, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_6.addItem(spacerItem10)
         self.horizontalLayout_7 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_7.setObjectName("horizontalLayout_7")
-        spacerItem13 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_7.addItem(spacerItem13)
         self.verticalLayout = QtWidgets.QVBoxLayout()
         self.verticalLayout.setObjectName("verticalLayout")
         self.rulesintroduction = QtWidgets.QLabel(self.baseFrame)
@@ -230,22 +221,19 @@ class StudyEnglishUI(object):
         self.startRectieButton.setObjectName("startRectieButton")
         self.verticalLayout.addWidget(self.startRectieButton)
         self.horizontalLayout_7.addLayout(self.verticalLayout)
-        spacerItem14 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_7.addItem(spacerItem14)
-        self.horizontalLayout_7.setStretch(0, 2)
-        self.horizontalLayout_7.setStretch(1, 10)
-        self.horizontalLayout_7.setStretch(2, 2)
+        self.horizontalLayout_7.setStretch(0, 10)
         self.verticalLayout_6.addLayout(self.horizontalLayout_7)
-        spacerItem15 = QtWidgets.QSpacerItem(20, 187, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_6.addItem(spacerItem15)
+        spacerItem11 = QtWidgets.QSpacerItem(20, 187, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_6.addItem(spacerItem11)
         self.verticalLayout_6.setStretch(0, 1)
         self.verticalLayout_6.setStretch(1, 3)
         self.verticalLayout_6.setStretch(2, 1)
         self.horizontalLayout_3.addWidget(self.baseFrame)
-        self.reciteDetailText.setObjectName("detailText")
-        self.reviewDetailText.setObjectName("detailText")
+        self.horizontalLayout_3.setStretch(0, 1)
+        self.horizontalLayout_3.setStretch(1, 1)
+
         self.retranslateUi(StudyEnglishUI)
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(StudyEnglishUI)
 
         self.DecideFrame()
@@ -374,9 +362,9 @@ class StudyEnglishUI(object):
     def retranslateUi(self, StudyEnglishUI):
         _translate = QtCore.QCoreApplication.translate
         StudyEnglishUI.setWindowTitle(_translate("StudyEnglishUI", "Form"))
-        self.currentReciteLabel.setText(_translate("StudyEnglishUI", "当前背诵："))
-        self.resetButton.setText(_translate("StudyEnglishUI", "重置背诵内容"))
-        self.ReciteButton.setText(_translate("StudyEnglishUI", "背诵今日单词"))
+        self.currentReciteLabel.setText(_translate("StudyEnglishUI", "当前学习："))
+        self.resetButton.setText(_translate("StudyEnglishUI", "重置学习内容"))
+        self.ReciteButton.setText(_translate("StudyEnglishUI", "学习今日单词"))
         self.ReviewButton.setText(_translate("StudyEnglishUI", "复习昨日生词"))
         self.reciteKnownButton.setText(_translate("StudyEnglishUI", "known"))
         self.reciteVagueButton.setText(_translate("StudyEnglishUI", "vague"))
@@ -385,15 +373,15 @@ class StudyEnglishUI(object):
         self.reviewVagueButton.setText(_translate("StudyEnglishUI", "vague"))
         self.reviewUnknownButton.setText(_translate("StudyEnglishUI", "unknown"))
         html = """
-            <html><head/><body><p>背单词规则：</p>
-            <p>1、将单词分为三个等级，来区分单词的熟悉度</p>
-            <p>2、每日可新学习规定单词，也会要求复习昨日不熟悉单词，加深印象</p>
-            <p>3、每次背诵单词会从上次离开处重新开始，且复习之后出现不熟悉单词</p>
-            <p>4、Don\'t lose faith, as long as the unremittingly, you will get some fruits</p>
-            <p><br/>请选择背诵的内容</p></body></html>
-        """
+                    <html><head/><body><p>学习单词规则：</p>
+                    <p>1、将单词分为三个等级，来区分单词的熟悉度</p>
+                    <p>2、每日可新学习规定单词，也会要求复习昨日不熟悉单词，加深印象</p>
+                    <p>3、每次学习单词会从上次离开处重新开始，且复习之后出现不熟悉单词</p>
+                    <p>4、Don\'t lose faith, as long as the unremittingly, you will get some fruits</p>
+                    <p><br/>请选择学习的内容</p></body></html>
+                """
         self.rulesintroduction.setText(_translate("StudyEnglishUI", html))
-        self.choiceType.setItemText(0, _translate("StudyEnglishUI", "选择要背诵的词库"))
+        self.choiceType.setItemText(0, _translate("StudyEnglishUI", "选择要学习的词库"))
         self.choiceType.setItemText(1, _translate("StudyEnglishUI", "中考词汇"))
         self.choiceType.setItemText(2, _translate("StudyEnglishUI", "高考词汇"))
         self.choiceType.setItemText(3, _translate("StudyEnglishUI", "四级词汇"))
@@ -404,7 +392,10 @@ class StudyEnglishUI(object):
         self.choiceOrder.setItemText(0, _translate("StudyEnglishUI", "选择顺序"))
         self.choiceOrder.setItemText(1, _translate("StudyEnglishUI", "乱序"))
         self.choiceOrder.setItemText(2, _translate("StudyEnglishUI", "顺序"))
-        self.startRectieButton.setText(_translate("StudyEnglishUI", "开始背诵"))
+        self.startRectieButton.setText(_translate("StudyEnglishUI", "开始学习"))
+        font = QFont()
+        font.setPointSize(16)
+        self.startRectieButton.setFont(font)
 
     def CreateReciteFrame(self):
         self.baseFrame.setHidden(True)
@@ -420,15 +411,15 @@ class StudyEnglishUI(object):
         msgBox = QMessageBox().question(QWidget(), "询问", "确认重置单词？", QMessageBox.Yes | QMessageBox.No,
                                         QMessageBox.No)
         if msgBox == QMessageBox.Yes:
-            with open(config,'w') as configFile:
+            with open(config, 'w') as configFile:
                 configFile.truncate()
             self.reciteFrame.setHidden(True)
             self.baseFrame.setVisible(True)
 
     def ReadConfig(self):
-        with open(config,'r') as configFile:
+        with open(config, 'r') as configFile:
             configList = [i.strip() for i in configFile.readlines()]
-        category = Trans(configList[0],tagTrans)
+        category = Trans(configList[0], tagTrans)
         dailyNumber = configList[1]
         sequence = int(configList[2])
         if sequence:
@@ -466,7 +457,7 @@ class StudyEnglishUI(object):
                 self.reciteShowWordList.setItemWidget(item, wordStyle)
 
         else:
-            QMessageBox.about(QWidget(), "真棒", "已完成今日背诵任务，可复习昨日单词")
+            QMessageBox.about(QWidget(), "真棒", "已完成今日学习任务，可复习昨日单词")
 
     def ReviewCreateListItem(self):
         review = ReciteWords()
@@ -494,7 +485,6 @@ class StudyEnglishUI(object):
                 wordStyle.setLayout(hbox)  # 水平布局
                 self.reviewShowWordList.addItem(item)
                 self.reviewShowWordList.setItemWidget(item, wordStyle)
-
         else:
             QMessageBox.about(QWidget(), "提示", "没有单词需要复习哦")
 
@@ -502,7 +492,7 @@ class StudyEnglishUI(object):
         itemWord = item.text()[1:]  # 获取查询内容
         db = DictionaryDB(dictionaryDB)
         detail = db.QueryWord(itemWord)  # 得到查询结果
-        if detail is not None:
+        if detail != None:
             # 对部分内容重新编写格式
             tag = '|'.join(detail['tag'].split())
             detail['tag'] = Trans(tag, tagTrans)
@@ -537,7 +527,7 @@ class StudyEnglishUI(object):
         itemWord = item.text()[1:]  # 获取查询内容
         db = DictionaryDB(dictionaryDB)
         detail = db.QueryWord(itemWord)  # 得到查询结果
-        if detail is not None:
+        if detail != None:
             # 对部分内容重新编写格式
             tag = '|'.join(detail['tag'].split())
             detail['tag'] = Trans(tag, tagTrans)
@@ -568,41 +558,95 @@ class StudyEnglishUI(object):
         else:
             self.reviewDetailText.setText('无详细释义')
 
-    def ReciteKnown(self):
+    def ReciteKnown(self, item):
         itemWord = self.reciteDetailText.toPlainText()  # 获取查询内容
         word = itemWord.split()[0]
         recite = ReciteWords()
         recite.ReciteWord(word, "known")
+        word = self.reciteShowWordList.currentItem()
+        row = self.reciteShowWordList.currentRow()
+        items = QListWidgetItem(word)
+        color = QColor()
+        color.setRgb(255, 182, 193)
+        brush = QBrush(color)
+        items.setBackground(brush)
+        self.reciteShowWordList.takeItem(row)
+        self.reciteShowWordList.insertItem(row, items)
 
     def ReciteVague(self):
         itemWord = self.reciteDetailText.toPlainText()  # 获取查询内容
         word = itemWord.split()[0]
         recite = ReciteWords()
         recite.ReciteWord(word, "vague")
+        word = self.reciteShowWordList.currentItem()
+        row = self.reciteShowWordList.currentRow()
+        items = QListWidgetItem(word)
+        color = QColor()
+        color.setRgb(255, 182, 193)
+        brush = QBrush(color)
+        items.setBackground(brush)
+        self.reciteShowWordList.takeItem(row)
+        self.reciteShowWordList.insertItem(row, items)
 
     def ReciteUnknown(self):
         itemWord = self.reciteDetailText.toPlainText()  # 获取查询内容
         word = itemWord.split()[0]
         recite = ReciteWords()
         recite.ReciteWord(word, "unknown")
+        word = self.reciteShowWordList.currentItem()
+        row = self.reciteShowWordList.currentRow()
+        items = QListWidgetItem(word)
+        color = QColor()
+        color.setRgb(255, 182, 193)
+        brush = QBrush(color)
+        items.setBackground(brush)
+        self.reciteShowWordList.takeItem(row)
+        self.reciteShowWordList.insertItem(row, items)
 
     def ReviewKnown(self):
         itemWord = self.reviewDetailText.toPlainText()  # 获取查询内容
         word = itemWord.split()[0]
         recite = ReciteWords()
         recite.ReviewWord(word, "known")
+        word = self.reciteShowWordList.currentItem()
+        row = self.reciteShowWordList.currentRow()
+        items = QListWidgetItem(word)
+        color = QColor()
+        color.setRgb(255, 182, 193)
+        brush = QBrush(color)
+        items.setBackground(brush)
+        self.reviewShowWordList.takeItem(row)
+        self.reviewShowWordList.insertItem(row, items)
 
     def ReviewVague(self):
         itemWord = self.reviewDetailText.toPlainText()  # 获取查询内容
         word = itemWord.split()[0]
         recite = ReciteWords()
         recite.ReviewWord(word, "vague")
+        word = self.reciteShowWordList.currentItem()
+        row = self.reciteShowWordList.currentRow()
+        items = QListWidgetItem(word)
+        color = QColor()
+        color.setRgb(255, 182, 193)
+        brush = QBrush(color)
+        items.setBackground(brush)
+        self.reviewShowWordList.takeItem(row)
+        self.reviewShowWordList.insertItem(row, items)
 
     def ReviewUnknown(self):
         itemWord = self.reviewDetailText.toPlainText()  # 获取查询内容
         word = itemWord.split()[0]
         recite = ReciteWords()
         recite.ReviewWord(word, "unknown")
+        word = self.reciteShowWordList.currentItem()
+        row = self.reciteShowWordList.currentRow()
+        items = QListWidgetItem(word)
+        color = QColor()
+        color.setRgb(255, 182, 193)
+        brush = QBrush(color)
+        items.setBackground(brush)
+        self.reviewShowWordList.takeItem(row)
+        self.reviewShowWordList.insertItem(row, items)
 
     def OnClickButton1(self):
         if self.stackedWidget.currentIndex() != 0:
@@ -631,5 +675,7 @@ class StudyEnglishUI(object):
                 self.CreateBaseFrame()
             else:
                 self.CreateReciteFrame()
+        else:
+            self.CreateBaseFrame()
 
 
