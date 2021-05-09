@@ -4,6 +4,7 @@
 import os
 import sqlite3
 import json
+import pyttsx3
 
 
 dictionaryDB = 'Data\\ecdict.db'  # 词典数据库文件

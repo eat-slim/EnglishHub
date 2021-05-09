@@ -52,6 +52,8 @@ class ServerSide:
                 _thread.start_new_thread(self.ServerProcess, (tcpCliSock, addr, data))
             except:
                 print("线程创建失败")
+                if not os.path.exists("log"):
+                    os.makedirs("log")
                 with open(self.logServer, 'a+') as f:  # 写入日志
                     f.write("[%s] %s : 线程创建失败" % (time.ctime(), addr))
                     f.write('\n')
@@ -66,10 +68,9 @@ class ServerSide:
         :return: 无
         """
         data = json.loads(data.decode('utf-8'))  # 解码数据
-        with open(self.logServer, 'a+') as f:  # 写入日志
-            f.write("[%s] %s : %s" % (time.ctime(), addr, data))
-            f.write('\n')
-        print("[%s] %s : %s" % (time.ctime(), addr, data))
+        log = "[%s] %s : %s" % (time.ctime(), addr, data)
+        self.ServerLog(log, self.logServer)
+        print(log)
         returnMsg = ''
         if "login" in data:
             returnMsg = self.ServerLogin(data.get("login", ''))
@@ -90,6 +91,8 @@ class ServerSide:
         password = dic.get("password", '')
         if username == '' or password == '':
             return "登录异常"
+        if not os.path.exists('Data'):
+            os.makedirs('Data')
         db = UserInformationDB(userInformation)
         if db.QueryPassword(username) == password:
             return "登录成功"
@@ -107,6 +110,8 @@ class ServerSide:
         type = dic.get("type", '')
         if username == '' or password == '' or type == '':
             return "注册异常"
+        if not os.path.exists('Data'):
+            os.makedirs('Data')
         db = UserInformationDB(userInformation)
         if db.Add(username=username, password=password, type=type):
             return "注册成功"
@@ -123,13 +128,25 @@ class ServerSide:
         text = dic.get("text", '')
         ctime = dic.get("time", '')
         if username != '' and text != '' and ctime != '':
-            with open(self.logFeedback, 'a+') as f:  # 写入文件
-                f.write("[%s] %s : %s" % (ctime, username, text))
-                f.write('\n')
+            log = "[%s] %s : %s" % (ctime, username, text)
+            self.ServerLog(log, self.logFeedback)
             rcv = "发送成功"
         else:
             rcv = "发送失败"
         return rcv
+
+    def ServerLog(self, log, file):
+        """
+        写入服务日志
+        :param log: 日志内容
+        :param file: 日志文件
+        :return:
+        """
+        if not os.path.exists("log"):
+            os.makedirs("log")
+        with open(file, 'a+') as f:  # 写入文件
+            f.write(log)
+            f.write('\n')
 
 
 class UserInformationDB:
@@ -159,7 +176,7 @@ class UserInformationDB:
         sql = '''
         CREATE TABLE IF NOT EXISTS "userInformation" (
             "username" VARCHAR(16) NOT NULL UNIQUE,
-            "password" VARCHAR(16),
+            "password" VARCHAR(40),
             "type" VARCHAR(16),
             "register_time" REAL
         );
@@ -290,6 +307,8 @@ class UserInformationDB:
     def OutputLog(self, text):
         """输出日志"""
         if self.__verbose:
+            if not os.path.exists("log"):
+                os.makedirs("log")
             with open(self.logDB, 'a+') as f:
                 f.write("[%s] %s" % (time.ctime(), text))
                 f.write('\n')
