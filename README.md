@@ -15,9 +15,9 @@
 ## 内容简介
 ### 编写环境
 项目使用Python编写，并基于PyQt5制作了GUI</br>
-Python版本为3.8.0
-小牛翻译API的使用请参考小牛翻译官网https://niutrans.com/
-开源英汉词典数据库的使用请参考https://github.com/skywind3000/ECDICT
+Python版本为3.8.0</br>
+小牛翻译API的使用请参考小牛翻译官网https://niutrans.com/</br>
+开源英汉词典数据库的使用请参考https://github.com/skywind3000/ECDICT</br>
 ### 项目分支
 + Logic分支内为各个功能模块的底层代码
 + UI分支内为各个功能和主界面的界面代码
